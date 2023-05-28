@@ -10,14 +10,14 @@ test('two plus two is four', () => {
 
 // toEqual to check the value of an object
 test('object assignment', () => {
-    const data = {one: 1}
+    const data = { one: 1 }
     data['two'] = 2
-    expect(data).toEqual({one: 1, two: 2})
+    expect(data).toEqual({ one: 1, two: 2 })
 })
 
-// teset for the opposite of a matcher using not
+// test for the opposite of a matcher using not
 test('adding positive numbers is not zero', () => {
-    for (let a = 1; a < 10; a++ ) {
+    for (let a = 1; a < 10; a++) {
         for (let b = 1; b < 10; b++) {
             expect(a + b).not.toBe(0)
         }
@@ -54,4 +54,46 @@ test('two plus two', () => {
     // toBe and toEqual are equivalent for numbers
     expect(value).toBe(4)
     expect(value).toEqual(4)
+})
+
+// Strings
+test('there is no I in team', () => {
+    expect('team').not.toMatch(/I/)
+})
+
+test('but there is a "stop" in Christoph', () => {
+    expect('Christoph').toMatch(/stop/)
+})
+
+// Arrays and iterables
+const shoppingList = [
+    'diapers',
+    'kleenex',
+    'trash bags',
+    'paper towels',
+    'milk',
+]
+
+test('the shopping list has milk on it', () => {
+    expect(shoppingList).toContain('milk')
+    expect(new Set(shoppingList)).toContain('milk')
+})
+
+// Exceptions
+// To test whether a specific function throws an error when called, use toThrow
+const compileAndroidCode = () => {
+    throw new Error('you are using the wrong JDK')
+}
+
+test('compiling android goes as expected', () => {
+    expect(() => compileAndroidCode()).toThrow()
+    expect(() => compileAndroidCode()).toThrow(Error)
+
+    // You can also use a string that must be contained in the error message or a regexp
+    expect(() => compileAndroidCode()).toThrow('you are using the wrong JDK')
+    expect(() => compileAndroidCode()).toThrow(/JDK/)
+
+    // Or you can match an exact error message using a regexp like below
+    expect(() => compileAndroidCode()).toThrow(/^you are using the wrong JDK$/) // Test Fails
+  //expect(() => compileAndroidCode()).toThrow(/^you are using the wrong JDK!$/) // Test Pass
 })
